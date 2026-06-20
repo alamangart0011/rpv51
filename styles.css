@@ -215,8 +215,35 @@ h1, h2, h3, h4 { font-family: "Oswald", "Manrope", sans-serif; font-weight: 600;
 .price-table tbody tr { border-top: 1px solid var(--line); transition: background .2s; }
 .price-table tbody tr:hover { background: var(--bg-card-2); }
 .price-table td:last-child, .price-table th:last-child { text-align: right; font-weight: 800; color: var(--accent-2); white-space: nowrap; }
-.price-note { margin-top: 14px; color: var(--muted); font-size: 14px; display: flex; gap: 8px; }
+.price-note { margin-top: 2px; color: var(--muted); font-size: 13.5px; display: flex; gap: 8px; }
 .price-note::before { content: "ℹ"; color: var(--accent); }
+.price-col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: var(--radius); }
+.price-subhead { font-family: "Oswald", sans-serif; font-size: 20px; }
+
+/* Аккордеон прайса на ремонт (нативный, без JS) */
+.price-acc { display: flex; flex-direction: column; gap: 8px; }
+.price-acc details { background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow-card); overflow: hidden; }
+.price-acc details[open] { border-color: var(--accent-line); }
+.price-acc summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; font-family: "Oswald", sans-serif; font-size: 16.5px; cursor: pointer; list-style: none; }
+.price-acc summary::-webkit-details-marker { display: none; }
+.price-acc summary::after { content: "+"; color: var(--accent); font-size: 22px; line-height: 1; transition: transform .3s var(--ease); }
+.price-acc details[open] summary::after { transform: rotate(45deg); }
+.price-acc table { width: 100%; border-collapse: collapse; }
+.price-acc td { padding: 10px 18px; border-top: 1px solid var(--line-soft); font-size: 14.5px; color: var(--muted); }
+.price-acc td:last-child { text-align: right; font-weight: 800; color: var(--accent-deep); white-space: nowrap; padding-left: 10px; }
+
+/* Мобильный вид таблицы шиномонтажа — карточки вместо тесной таблицы */
+@media (max-width: 560px) {
+  .price-table--tyre { box-shadow: none; }
+  .price-table--tyre thead { display: none; }
+  .price-table--tyre, .price-table--tyre tbody, .price-table--tyre tr, .price-table--tyre td { display: block; width: 100%; }
+  .price-table--tyre tr { border-top: 1px solid var(--line); }
+  .price-table--tyre td { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; padding: 9px 16px; text-align: right; border: none; }
+  .price-table--tyre td::before { content: attr(data-label); color: var(--muted); font-weight: 600; text-align: left; flex: 1 1 auto; }
+  .price-table--tyre td:first-child { background: var(--bg-card-2); font-family: "Oswald", sans-serif; font-size: 16px; padding: 11px 16px; justify-content: flex-start; }
+  .price-table--tyre td:first-child::before { content: ""; flex: none; }
+}
 
 .price-cta { background: linear-gradient(165deg, var(--bg-card-2), var(--bg-card)); border: 1px solid var(--line); border-radius: var(--radius); padding: 32px; position: sticky; top: 100px; }
 .price-cta h3 { font-size: 23px; margin-bottom: 10px; }
