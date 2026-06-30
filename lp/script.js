@@ -4,7 +4,7 @@
 
 // ---- КОНФИГ (заполните ID перед запуском рекламы) ----
 const CONFIG = {
-  phone: '+79807730246',
+  phone: '+79010458232',
   vkScreen: 'rpv51',          // vk.com/rpv51
   vkMessage: 'https://vk.me/rpv51',
   vkGroupId: '',              // ЧИСЛОВОЙ id сообщества — для виджета ВК (необязательно). Как узнать: regtools.ru → «узнать id группы»
