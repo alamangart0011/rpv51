@@ -52,9 +52,16 @@ function maskPhone(e) {
 document.querySelectorAll('input[name="phone"]').forEach((i) => i.addEventListener('input', maskPhone));
 
 // ============ ОТПРАВКА ЛИДОВ (Bitrix24 через Jino) ============
+// Яндекс.Метрика (счётчик Яндекс Бизнеса Rpv51)
+(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();
+for (var j=0;j<document.scripts.length;j++) {if (document.scripts[j].src===r) return;}
+k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
+ym(96237257, 'init', { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true });
+
 const LEAD_ENDPOINT = 'https://92d38f2524c2.hosting.myjino.ru/lead.php';
 const UTM = (() => { const p = new URLSearchParams(location.search); const o = {}; ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(k => { const v = p.get(k); if (v) o[k] = v; }); o.page = location.href.split('#')[0]; return o; })();
-function sendLead(data) { try { fetch(LEAD_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...data, ...UTM }) }).catch(() => {}); } catch (e) {} }
+function sendLead(data) { try { if (window.ym) ym(96237257,'reachGoal','lead'); } catch(e){} try { fetch(LEAD_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...data, ...UTM }) }).catch(() => {}); } catch (e) {} }
 
 // ============ ОБРАБОТКА ФОРМ ============
 function handleForm(form, successEl, onDone) {
