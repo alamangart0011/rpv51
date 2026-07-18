@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /price/
+Sitemap: https://rpv51-yar.ru/sitemap.xml
