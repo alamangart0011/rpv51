@@ -7,7 +7,7 @@ const CONFIG = {
   phone: '+79010458232',
   vkScreen: 'rpv51',          // vk.com/rpv51
   vkMessage: 'https://vk.me/rpv51',
-  vkGroupId: '',              // ЧИСЛОВОЙ id сообщества — для виджета ВК (необязательно). Как узнать: regtools.ru → «узнать id группы»
+  vkGroupId: '194743769',              // ЧИСЛОВОЙ id сообщества — для виджета ВК (необязательно). Как узнать: regtools.ru → «узнать id группы»
   metrikaId: '96237257',             // номер счётчика Яндекс.Метрики, напр. 99999999
   vkPixelId: '',             // ID пикселя VK Ads / top.mail.ru
   leadEndpoint: 'https://formsubmit.co/ajax/holydude0011@gmail.com',          // URL приёма заявок: Formspree/Getform/вебхук CRM. Пусто = заявка только в ВК/по телефону
