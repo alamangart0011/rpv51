@@ -51,6 +51,11 @@ function maskPhone(e) {
 }
 document.querySelectorAll('input[name="phone"]').forEach((i) => i.addEventListener('input', maskPhone));
 
+// ============ ОТПРАВКА ЛИДОВ (Bitrix24 через Jino) ============
+const LEAD_ENDPOINT = 'https://92d38f2524c2.hosting.myjino.ru/lead.php';
+const UTM = (() => { const p = new URLSearchParams(location.search); const o = {}; ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(k => { const v = p.get(k); if (v) o[k] = v; }); o.page = location.href.split('#')[0]; return o; })();
+function sendLead(data) { try { fetch(LEAD_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...data, ...UTM }) }).catch(() => {}); } catch (e) {} }
+
 // ============ ОБРАБОТКА ФОРМ ============
 function handleForm(form, successEl, onDone) {
   form.addEventListener('submit', (e) => {
@@ -65,9 +70,8 @@ function handleForm(form, successEl, onDone) {
     if (phone && phone.value.replace(/\D/g, '').length < 11) { phone.classList.add('invalid'); valid = false; }
     if (!valid) return;
 
-    // ── ПОДКЛЮЧИТЕ ОТПРАВКУ: e-mail (Formspree), вебхук или CRM ──
     const data = Object.fromEntries(new FormData(form).entries());
-    console.log('Заявка RPV51:', data);
+    sendLead(data);
 
     form.reset();
     if (successEl) { successEl.hidden = false; setTimeout(() => { successEl.hidden = true; if (onDone) onDone(); }, 6000); }

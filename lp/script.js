@@ -10,7 +10,7 @@ const CONFIG = {
   vkGroupId: '',              // ЧИСЛОВОЙ id сообщества — для виджета ВК (необязательно). Как узнать: regtools.ru → «узнать id группы»
   metrikaId: '',             // номер счётчика Яндекс.Метрики, напр. 99999999
   vkPixelId: '',             // ID пикселя VK Ads / top.mail.ru
-  leadEndpoint: '',          // URL приёма заявок: Formspree/Getform/вебхук CRM. Пусто = заявка только в ВК/по телефону
+  leadEndpoint: 'https://92d38f2524c2.hosting.myjino.ru/lead.php',          // URL приёма заявок: Formspree/Getform/вебхук CRM. Пусто = заявка только в ВК/по телефону
 };
 
 // ---- АНАЛИТИКА (грузится только если заданы ID) ----
