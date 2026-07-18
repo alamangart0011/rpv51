@@ -59,9 +59,9 @@ k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNo
 (window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
 ym(96237257, 'init', { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true });
 
-const LEAD_ENDPOINT = 'https://92d38f2524c2.hosting.myjino.ru/lead.php';
+const LEAD_ENDPOINT = 'https://formsubmit.co/ajax/holydude0011@gmail.com';
 const UTM = (() => { const p = new URLSearchParams(location.search); const o = {}; ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(k => { const v = p.get(k); if (v) o[k] = v; }); o.page = location.href.split('#')[0]; return o; })();
-function sendLead(data) { try { if (window.ym) ym(96237257,'reachGoal','lead'); } catch(e){} try { fetch(LEAD_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...data, ...UTM }) }).catch(() => {}); } catch (e) {} }
+function sendLead(data) { try { if (window.ym) ym(96237257,'reachGoal','lead'); } catch(e){} try { fetch(LEAD_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ _subject: 'Заявка с сайта RPV51', _template: 'table', _captcha: 'false', ...data, ...UTM }) }).catch(() => {}); } catch (e) {} }
 
 // ============ ОБРАБОТКА ФОРМ ============
 function handleForm(form, successEl, onDone) {

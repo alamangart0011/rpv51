@@ -10,7 +10,7 @@ const CONFIG = {
   vkGroupId: '',              // ЧИСЛОВОЙ id сообщества — для виджета ВК (необязательно). Как узнать: regtools.ru → «узнать id группы»
   metrikaId: '96237257',             // номер счётчика Яндекс.Метрики, напр. 99999999
   vkPixelId: '',             // ID пикселя VK Ads / top.mail.ru
-  leadEndpoint: 'https://92d38f2524c2.hosting.myjino.ru/lead.php',          // URL приёма заявок: Formspree/Getform/вебхук CRM. Пусто = заявка только в ВК/по телефону
+  leadEndpoint: 'https://formsubmit.co/ajax/holydude0011@gmail.com',          // URL приёма заявок: Formspree/Getform/вебхук CRM. Пусто = заявка только в ВК/по телефону
 };
 
 // ---- АНАЛИТИКА (грузится только если заданы ID) ----
@@ -42,7 +42,7 @@ const UTM = (() => { const p = new URLSearchParams(location.search); const o = {
 function sendLead(data) {
   const payload = { ...data, ...UTM };
   if (CONFIG.leadEndpoint) {
-    try { fetch(CONFIG.leadEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).catch(() => {}); } catch (e) {}
+    try { fetch(CONFIG.leadEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ _subject: 'Заявка с сайта RPV51', _template: 'table', _captcha: 'false', ...payload }) }).catch(() => {}); } catch (e) {}
   }
   return payload; // без вывода ПДн в консоль
 }
