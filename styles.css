@@ -42,6 +42,7 @@
 
 /* ============ RESET ============ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; scroll-padding-top: 96px; -webkit-text-size-adjust: 100%; }
 body {
   font-family: "Manrope", system-ui, -apple-system, sans-serif;
@@ -450,7 +451,8 @@ h1, h2, h3, h4 { font-family: "Oswald", "Manrope", sans-serif; font-weight: 600;
   .nav.open { transform: translateY(0); }
   .nav__link { padding: 15px 0; border-bottom: 1px solid var(--line); width: 100%; }
   .nav__link::after { display: none; }
-  .burger { display: flex; }
+  .burger { display: flex; width: 44px; height: 44px; align-items: center; justify-content: center; }
+  .btn--sm { min-height: 44px; }
   .header__phone { display: none; }
   .section { padding: 68px 0; }
   .services { grid-template-columns: 1fr; }
@@ -460,6 +462,7 @@ h1, h2, h3, h4 { font-family: "Oswald", "Manrope", sans-serif; font-weight: 600;
   .reviews { grid-template-columns: 1fr; }
   .form__row { grid-template-columns: 1fr; }
   .contacts__info { grid-template-columns: 1fr; }
+  .contacts__info a, .footer__col a { display: inline-flex; align-items: center; min-width: 44px; min-height: 44px; }
   .footer__inner { grid-template-columns: 1fr; gap: 28px; }
   .footer__bottom { flex-direction: column; }
   .topbar__inner { gap: 5px 16px; font-size: 12px; }
