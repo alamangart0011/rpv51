@@ -270,6 +270,9 @@ h1,h2,h3,h4{font-family:"Oswald","Manrope",sans-serif;font-weight:600;line-heigh
   .tstrip__inner{grid-template-columns:repeat(2,1fr);gap:22px}
 }
 @media(max-width:760px){
+  /* FA-гейт 2026-09-04: VK-виджет фиксированной ширины давил страницу (overflow 182px на 390) */
+  .vkblock__widget{max-width:100%;width:100%;overflow:hidden}
+
   .modal__card{max-height:min(92vh,calc(100vh - 120px));padding-bottom:max(env(safe-area-inset-bottom),28px)}
   .header__phone,.header__rating{display:none}
   .section{padding:60px 0}
