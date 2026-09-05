@@ -19,11 +19,12 @@
   <meta name="twitter:image" content="https://rpv51-yar.ru/assets/work5.jpg" />
   <meta name="theme-color" content="#f5a623" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preload" href="assets/fonts/onest-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/onest-700-cyrillic.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/unbounded-700-cyrillic.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/fonts/fonts.css" />
   <link rel="preload" as="image" href="assets/work5.jpg" fetchpriority="high" />
-  <link rel="stylesheet" href="styles.css?v=verified-card-v3" />
+  <link rel="stylesheet" href="styles.css?v=vyshka-ds-1" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23f5a623'/><text x='50' y='70' font-size='54' font-family='Arial' font-weight='bold' fill='%231a1205' text-anchor='middle'>R</text></svg>" />
 
   <script type="application/ld+json">
@@ -60,7 +61,8 @@
       </a>
       <nav class="nav" id="nav">
         <a href="#services" class="nav__link">Услуги</a>
-        <a href="#why" class="nav__link">Почему мы</a>
+        <a href="#prices" class="nav__link">Цены</a>
+        <a href="#bonus" class="nav__link">Акции</a>
         <a href="#gallery" class="nav__link">Фото</a>
         <a href="#reviews" class="nav__link">Отзывы</a>
         <a href="#contacts" class="nav__link">Контакты</a>
@@ -75,28 +77,34 @@
 
   <!-- HERO -->
   <section class="hero" id="home">
-    <div class="hero__media" aria-hidden="true"><img src="assets/work5.jpg" alt="Цех автосервиса RPV51 в Ярославле"  width="1200" height="800" /></div>
     <div class="container hero__inner">
-      <div class="hero__content">
-        <span class="hero__badge">🏆 «Хорошее место 2026» по версии Яндекс.Карт</span>
-        <h1 class="hero__title">Автосервис в Ярославле: бесплатная диагностика<br />и <span class="accent">смета до работ</span></h1>
-        <p class="hero__text">RPV51 на ул. Победы, 22Б: двигатель, ходовая, тормоза, масло, выхлоп, шиномонтаж R13–R22. Сначала бесплатно найдём причину и покажем смету — ремонт только после вашего «да».</p>
+      <div class="hero__grid">
+        <div class="hero__content">
+          <span class="hero__badge">🏆 «Хорошее место 2026» по версии Яндекс.Карт</span>
+          <h1 class="hero__title">Автосервис в Ярославле: бесплатная диагностика<br />и <span class="accent">смета до работ</span></h1>
+          <p class="hero__text">RPV51 на ул. Победы, 22Б: двигатель, ходовая, тормоза, масло, выхлоп, шиномонтаж R13–R22. Сначала бесплатно найдём причину и покажем смету — ремонт только после вашего «да».</p>
 
-        <div class="hero__trust">
-          <span class="trust-chip"><span class="ic">★</span><b>5,0</b>&nbsp;·&nbsp;94 оценки</span>
-          <span class="trust-chip"><span class="ic">💬</span>74 отзыва</span>
-          <span class="trust-chip"><span class="ic">🏆</span>«Хорошее место 2026»</span>
-          <span class="trust-chip"><span class="ic">📍</span>Победы, 22Б</span>
-        </div>
+          <div class="hero__trust">
+            <span class="trust-chip"><span class="ic">★</span><b>5,0</b>&nbsp;·&nbsp;94 оценки</span>
+            <span class="trust-chip"><span class="ic">💬</span>74 отзыва</span>
+            <span class="trust-chip"><span class="ic">🏆</span>«Хорошее место 2026»</span>
+            <span class="trust-chip"><span class="ic">📍</span>Победы, 22Б</span>
+          </div>
 
-        <div class="hero__actions">
-          <a href="tel:+79010458232" class="btn btn--primary btn--lg" data-track="phone" data-placement="hero">Уточнить время и цену</a>
-          <a href="https://yandex.ru/maps/org/212090615871/" target="_blank" rel="noopener" class="btn btn--ghost" data-track="route" data-placement="hero">Проложить маршрут в Картах</a>
+          <div class="hero__actions">
+            <a href="tel:+79010458232" class="btn btn--primary btn--lg" data-track="phone" data-placement="hero">Уточнить время и цену</a>
+            <a href="https://yandex.ru/maps/org/212090615871/" target="_blank" rel="noopener" class="btn btn--ghost btn--lg" data-track="route" data-placement="hero">Проложить маршрут в Картах</a>
+          </div>
+          <p class="hero__note">Телефон, адрес и рейтинг сверены с карточкой RPV51 в Яндекс.Картах 20.08.2026</p>
         </div>
-        <p class="hero__note">Телефон, адрес и рейтинг сверены с карточкой RPV51 в Яндекс.Картах 20.08.2026</p>
+        <div class="hero__media">
+          <div class="hero__photo">
+            <img src="assets/work5.jpg" alt="Цех автосервиса RPV51 в Ярославле" width="1200" height="800" fetchpriority="high" />
+            <div class="hero__photo-badge"><span class="big">5,0</span><div><b>★★★★★</b><small>94 оценки · 74 отзыва на Яндексе</small></div></div>
+          </div>
+        </div>
       </div>
     </div>
-    <a href="#services" class="hero__scroll" aria-label="Листать вниз">↓</a>
   </section>
 
   <!-- BENEFITS -->
@@ -168,7 +176,7 @@
   </section>
 
   <!-- PRICES -->
-  <section class="section" id="prices" hidden>
+  <section class="section" id="prices">
     <div class="container">
       <div class="section__head">
         <span class="section__tag">Цены</span>
@@ -337,7 +345,7 @@
   </section>
 
   <!-- БОНУСЫ И АКЦИИ -->
-  <section class="section section--dark" id="bonus" hidden>
+  <section class="section section--dark" id="bonus">
     <div class="container">
       <div class="section__head">
         <span class="section__tag">Выгода</span>
@@ -378,7 +386,7 @@
   </section>
 
   <!-- PROCESS -->
-  <section class="section section--dark" id="process" hidden>
+  <section class="section" id="process">
     <div class="container">
       <div class="section__head"><span class="section__tag">Как мы работаем</span><h2 class="section__title">Всего 4 шага до исправного авто</h2></div>
       <div class="steps">
@@ -452,15 +460,19 @@
         </div>
       </div>
 
-      <form class="form" id="bookingForm" novalidate hidden>
+      <form class="form" id="bookingForm" novalidate>
         <h3 class="form__title">Предварительная заявка</h3>
-        <p class="form__sub">Онлайн-доставка формы пока не подключена. Для записи используйте телефон или ВКонтакте.</p>
+        <p class="form__sub">Опишите проблему — перезвоним, уточним цену и свободное время. Обычно отвечаем в течение рабочего дня.</p>
         <div class="form__row">
           <label class="form__field"><span>Ваше имя</span><input type="text" name="name" placeholder="Иван" required /></label>
           <label class="form__field"><span>Телефон</span><input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required /></label>
         </div>
         <label class="form__field"><span>Марка и модель авто</span><input type="text" name="car" placeholder="Например, Hyundai Solaris" /></label>
         <label class="form__field"><span>Что беспокоит?</span><textarea name="comment" rows="3" placeholder="Опишите проблему — подскажем по телефону"></textarea></label>
+        <label class="form__check">
+          <input type="checkbox" name="consent" required />
+          <span>Согласен на обработку персональных данных согласно <a href="privacy.html" target="_blank" rel="noopener">политике конфиденциальности</a></span>
+        </label>
         <button type="submit" class="btn btn--primary btn--full btn--lg">Отправить заявку</button>
         <p class="form__note">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных</p>
         <p class="form__success" id="formSuccess" hidden>✅ Спасибо! Заявка принята — перезвоним в ближайшее время.</p>
@@ -469,7 +481,7 @@
   </section>
 
   <!-- FAQ -->
-  <section class="section" id="faq" hidden>
+  <section class="section" id="faq">
     <div class="container">
       <div class="section__head"><span class="section__tag">Вопросы и ответы</span><h2 class="section__title">Коротко о главном</h2></div>
       <div class="faq">
@@ -506,10 +518,12 @@
     <div class="container footer__inner">
       <div class="footer__col">
         <span class="logo__mark">RPV<span class="logo__accent">51</span></span>
-        <p class="footer__about">Автосервис в Ярославле: ул. Победы, 22Б. Возможность конкретной работы, срок и стоимость уточняйте по телефону.</p>
+        <p class="footer__about">Автосервис в Ярославле: ул. Победы, 22Б. Бесплатная диагностика, смета до работ, гарантия. Возможность конкретной работы, срок и стоимость уточняйте по телефону.</p>
+        <a class="footer__powered" href="https://vyshka.cloud/" target="_blank" rel="noopener">Сделано на платформе <b>VYSHKA.Cloud</b></a>
       </div>
-      <div class="footer__col"><h4>Навигация</h4><a href="#services">Услуги</a><a href="#gallery">Фото</a><a href="#reviews">Отзывы</a><a href="#contacts">Контакты</a></div>
-      <div class="footer__col"><h4>Контакты</h4><a href="tel:+79010458232">+7 (901) 045-82-32</a><a href="https://vk.com/rpv51" target="_blank" rel="noopener">ВКонтакте: vk.com/rpv51</a><p>г. Ярославль, ул. Победы, 22Б</p></div>
+      <div class="footer__col"><h4>Разделы</h4><a href="#services">Услуги</a><a href="#prices">Цены</a><a href="#bonus">Акции и бонусы</a><a href="#process">Как мы работаем</a><a href="#faq">Вопросы и ответы</a></div>
+      <div class="footer__col"><h4>Клиентам</h4><a href="#gallery">Фото цеха</a><a href="#reviews">Отзывы на Яндексе</a><a href="https://vk.com/rpv51" target="_blank" rel="noopener">ВКонтакте</a><a href="privacy.html">Политика конфиденциальности</a></div>
+      <div class="footer__col"><h4>Контакты</h4><a href="tel:+79010458232">+7 (901) 045-82-32</a><a href="https://yandex.ru/maps/org/212090615871/" target="_blank" rel="noopener">Ярославль, ул. Победы, 22Б</a><p>Пн–Пт 09:30–20:00 · Сб 11:00–18:00</p></div>
     </div>
     <div class="container footer__bottom"><span>© <span id="year"></span> RPV51 — Автосервис в Ярославле</span><span>Сайт носит информационный характер и не является публичной офертой</span></div>
   </footer>
@@ -518,20 +532,25 @@
   <a href="#home" class="to-top" id="toTop" aria-label="Наверх">↑</a>
   <nav class="mobile-bar">
     <a href="tel:+79010458232" data-track="phone" data-placement="mobile-bar"><span class="ic">📞</span>Позвонить</a>
-    <a href="https://yandex.ru/maps/org/212090615871/" target="_blank" rel="noopener" class="is-book" data-track="route" data-placement="mobile-bar"><span class="ic">📍</span>Маршрут</a>
+    <a href="https://yandex.ru/maps/org/212090615871/" target="_blank" rel="noopener" data-track="route" data-placement="mobile-bar"><span class="ic">📍</span>Маршрут</a>
+    <button type="button" class="is-book js-book" data-track="book" data-placement="mobile-bar"><span class="ic">✍️</span>Записаться</button>
   </nav>
 
   <!-- MODAL -->
-  <div class="modal" id="bookModal" aria-hidden="true" hidden>
+  <div class="modal" id="bookModal" aria-hidden="true">
     <div class="modal__backdrop js-modal-close"></div>
     <div class="modal__card" role="dialog" aria-modal="true" aria-label="Запись на ремонт">
       <button class="modal__close js-modal-close" aria-label="Закрыть">×</button>
       <form class="form" id="modalForm" novalidate style="padding:0;background:none;border:none;box-shadow:none">
         <h3 class="form__title">Запись на ремонт</h3>
-        <p class="form__sub">Онлайн-доставка формы пока не подключена. Для записи позвоните в сервис.</p>
+        <p class="form__sub">Оставьте номер — перезвоним, уточним цену и свободное время.</p>
         <label class="form__field"><span>Ваше имя</span><input type="text" name="name" placeholder="Иван" required /></label>
         <label class="form__field"><span>Телефон</span><input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required /></label>
         <label class="form__field"><span>Что беспокоит? (необязательно)</span><input type="text" name="comment" placeholder="Например, стук в подвеске" /></label>
+        <label class="form__check">
+          <input type="checkbox" name="consent" required />
+          <span>Согласен на обработку персональных данных согласно <a href="privacy.html" target="_blank" rel="noopener">политике конфиденциальности</a></span>
+        </label>
         <button type="submit" class="btn btn--primary btn--full btn--lg">Жду звонка</button>
         <p class="form__note">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных</p>
         <p class="form__success" id="modalSuccess" hidden>✅ Спасибо! Перезвоним в ближайшее время.</p>

@@ -60,8 +60,17 @@ k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNo
 ym(96237257, 'init', { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true });
 
 const LEAD_ENDPOINT = 'https://formsubmit.co/ajax/holydude0011@gmail.com';
+const LEAD_API = 'https://vyshka.cloud/api/lead'; // лид-пайплайн ВЫШКА (мессенджер Owner), source=rpv51-site
 const UTM = (() => { const p = new URLSearchParams(location.search); const o = {}; ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(k => { const v = p.get(k); if (v) o[k] = v; }); o.page = location.href.split('#')[0]; return o; })();
-function sendLead(data) { try { if (window.ym) ym(96237257,'reachGoal','lead'); } catch(e){} try { fetch(LEAD_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ _subject: 'Заявка с сайта RPV51', _template: 'table', _captcha: 'false', ...data, ...UTM }) }).catch(() => {}); } catch (e) {} }
+function sendLead(data) {
+  try { if (window.ym) ym(96237257,'reachGoal','lead'); } catch(e){}
+  try {
+    fetch(LEAD_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ _subject: 'Заявка с сайта RPV51', _template: 'table', _captcha: 'false', ...data, ...UTM }) }).catch(() => {});
+  } catch (e) {}
+  try {
+    fetch(LEAD_API, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ source: 'rpv51-site', name: data.name || '', phone: data.phone || '', comment: [data.car, data.comment].filter(Boolean).join(' — '), consent: data.consent ? 'да' : 'нет', ...UTM }) }).catch(() => {});
+  } catch (e) {}
+}
 
 // ============ ОБРАБОТКА ФОРМ ============
 function handleForm(form, successEl, onDone) {
@@ -69,8 +78,10 @@ function handleForm(form, successEl, onDone) {
     e.preventDefault();
     let valid = true;
     form.querySelectorAll('[required]').forEach((f) => {
-      const empty = !f.value.trim();
-      f.classList.toggle('invalid', empty);
+      const empty = (f.type === 'checkbox') ? !f.checked : !f.value.trim();
+      const wrap = f.closest('.form__check');
+      if (f.type === 'checkbox' && wrap) wrap.classList.toggle('invalid', empty);
+      else f.classList.toggle('invalid', empty);
       if (empty) valid = false;
     });
     const phone = form.querySelector('input[name="phone"]');
