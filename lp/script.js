@@ -60,7 +60,9 @@ function initVkWidget() {
     s.src = 'https://vk.com/js/api/openapi.js?169';
     s.onload = function () {
       try {
-        if (!document.getElementById('vk_community')) return;
+        const mountNode = document.getElementById('vk_community');
+        if (!mountNode) return;
+        mountNode.innerHTML = ''; // убираем статичную ссылку-фолбэк перед вставкой iframe
         window.VK.Widgets.Group('vk_community', { mode: 3, width: 'auto', height: 330, color1: '161a20', color2: 'f4f6f8', color3: 'f5a623' }, CONFIG.vkGroupId);
         // CommunityMessages убран 2026-09-05: вызывался без element_id (подпись API:
         // element_id, group_id, opts) — падал «VK.Widgets: object not found» и вешал
