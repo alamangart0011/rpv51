@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 Disallow: /price/
+Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term
 Sitemap: https://rpv51-yar.ru/sitemap.xml
