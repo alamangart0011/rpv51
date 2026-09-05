@@ -53,16 +53,28 @@ document.addEventListener('input', (e) => { if (e.target.matches && e.target.mat
 // ---- ВК-ВИДЖЕТ сообщества (если задан числовой id) ----
 function initVkWidget() {
   if (!CONFIG.vkGroupId) return; // без id показываем статичную ссылку (уже в разметке)
-  const s = document.createElement('script');
-  s.src = 'https://vk.com/js/api/openapi.js?169';
-  s.onload = function () {
-    try {
-      document.getElementById('vk_community').innerHTML = '';
-      window.VK.Widgets.Group('vk_community', { mode: 3, width: 'auto', height: 330, color1: '161a20', color2: 'f4f6f8', color3: 'f5a623' }, CONFIG.vkGroupId);
-      window.VK.Widgets.CommunityMessages(CONFIG.vkGroupId, { tooltipButtonText: 'Записаться в RPV51', expanded: 0 });
-    } catch (e) {}
+  const mount = () => {
+    const node = document.getElementById('vk_community');
+    if (!node) return; // узла нет — остаётся статичная ссылка из разметки
+    const s = document.createElement('script');
+    s.src = 'https://vk.com/js/api/openapi.js?169';
+    s.onload = function () {
+      try {
+        if (!document.getElementById('vk_community')) return;
+        window.VK.Widgets.Group('vk_community', { mode: 3, width: 'auto', height: 330, color1: '161a20', color2: 'f4f6f8', color3: 'f5a623' }, CONFIG.vkGroupId);
+        // CommunityMessages убран 2026-09-05: вызывался без element_id (подпись API:
+        // element_id, group_id, opts) — падал «VK.Widgets: object not found» и вешал
+        // глобальный message-листенер openapi.js, дававший pageerror
+        // «getElementsByTagName null» при каждом postMessage виджета.
+      } catch (e) {}
+    };
+    document.head.appendChild(s);
   };
-  document.head.appendChild(s);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', mount, { once: true });
+  } else {
+    mount();
+  }
 }
 initVkWidget();
 

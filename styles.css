@@ -485,6 +485,18 @@ h1, h2, h3, h4 { font-family: "Oswald", "Manrope", sans-serif; font-weight: 600;
   .trust-chip { font-size: 13px; padding: 8px 12px; }
 }
 
+/* FH-хвост 2026-09-05: на 390 hero-CTA «Проложить маршрут в Картах» при загрузке
+   оказывался под fixed mobile-bar (top 769 при CTA 772–821). Один padding-bottom
+   не сдвигает CTA (контент прижат вверх, бокс растягивается вниз), поэтому —
+   сжатие hero на телефонах + нижний запас под бар */
+@media (max-width: 480px) {
+  .hero { min-height: 0; }
+  .hero__inner { padding-bottom: 110px; }
+  .hero__title { font-size: 34px; margin-bottom: 14px; }
+  .hero__text { margin-bottom: 18px; }
+  .hero__actions { gap: 10px; margin-bottom: 12px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; }
