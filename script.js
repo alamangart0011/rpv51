@@ -62,18 +62,20 @@ ym(96237257, 'init', { clickmap:true, trackLinks:true, accurateTrackBounce:true,
 const LEAD_ENDPOINT = 'https://formsubmit.co/ajax/holydude0011@gmail.com';
 const LEAD_API = 'https://vyshka.cloud/api/lead'; // лид-пайплайн ВЫШКА (мессенджер Owner), source=rpv51-site
 const UTM = (() => { const p = new URLSearchParams(location.search); const o = {}; ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(k => { const v = p.get(k); if (v) o[k] = v; }); o.page = location.href.split('#')[0]; return o; })();
+// Цели Метрики: 96237257 (Яндекс Бизнес) + 112323508 (сайтовый, привязка к Вебмастеру)
+function goal(name) { try { if (window.ym) { ym(96237257, 'reachGoal', name); ym(112323508, 'reachGoal', name); } } catch (e) {} }
 function sendLead(data) {
-  try { if (window.ym) ym(96237257,'reachGoal','lead'); } catch(e){}
+  try { goal('lead'); } catch (e) {}
   try {
     fetch(LEAD_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ _subject: 'Заявка с сайта RPV51', _template: 'table', _captcha: 'false', ...data, ...UTM }) }).catch(() => {});
   } catch (e) {}
   try {
-    // API leadapi: consent строго true, контакт в поле contact (152-ФЗ)
+    // API leadapi: контакт в поле contact; consent — только из реального чекбокса форм (152-ФЗ, не хардкодить)
     fetch(LEAD_API, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
       source: 'rpv51-site',
       contact: [data.phone, data.name].filter(Boolean).join(' · '),
       note: [data.car, data.comment].filter(Boolean).join(' — '),
-      consent: true,
+      consent: data.consent === 'on' || data.consent === true,
       ...UTM
     }) }).catch(() => {});
   } catch (e) {}
@@ -97,6 +99,7 @@ function handleForm(form, successEl, onDone) {
 
     const data = Object.fromEntries(new FormData(form).entries());
     sendLead(data);
+    goal('lead_form'); // событийная цель на успех отправки (обе формы: booking + modal)
 
     form.reset();
     if (successEl) { successEl.hidden = false; setTimeout(() => { successEl.hidden = true; if (onDone) onDone(); }, 6000); }
@@ -104,6 +107,12 @@ function handleForm(form, successEl, onDone) {
   form.querySelectorAll('input, textarea').forEach((el) => el.addEventListener('input', () => el.classList.remove('invalid')));
 }
 handleForm(document.getElementById('bookingForm'), document.getElementById('formSuccess'));
+
+// Цель tel_click — делегированно на все tel:-ссылки (9 на главной, 4 на /lp/)
+document.addEventListener('click', (e) => {
+  const a = e.target && e.target.closest ? e.target.closest('a[href^="tel:"]') : null;
+  if (a) goal('tel_click');
+}, true);
 
 // ============ МОДАЛКА ЗАПИСИ ============
 const modal = document.getElementById('bookModal');

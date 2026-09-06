@@ -9,8 +9,11 @@ const CONFIG = {
   vkMessage: 'https://vk.me/rpv51',
   vkGroupId: '194743769',              // ЧИСЛОВОЙ id сообщества — для виджета ВК (необязательно). Как узнать: regtools.ru → «узнать id группы»
   metrikaId: '96237257',             // номер счётчика Яндекс.Метрики, напр. 99999999
+  metrikaId2: '112323508',           // второй (сайтовый) счётчик — привязка к Вебмастеру; init — в inline-блоке HTML
   vkPixelId: '',             // ID пикселя VK Ads / top.mail.ru
   leadEndpoint: 'https://formsubmit.co/ajax/holydude0011@gmail.com',          // URL приёма заявок: Formspree/Getform/вебхук CRM. Пусто = заявка только в ВК/по телефону
+  leadApi: 'https://vyshka.cloud/api/lead',  // лид-пайплайн ВЫШКА (no-cors, API без CORS-заголовков)
+  source: 'rpv51',           // метка источника для leadApi
 };
 
 // ---- АНАЛИТИКА (грузится только если заданы ID) ----
@@ -33,6 +36,7 @@ function initAnalytics() {
 }
 function track(goal, params) {
   try { if (window.ym && CONFIG.metrikaId) ym(CONFIG.metrikaId, 'reachGoal', goal, params || {}); } catch (e) {}
+  try { if (window.ym && CONFIG.metrikaId2) ym(CONFIG.metrikaId2, 'reachGoal', goal, params || {}); } catch (e) {}
   try { if (window._tmr && CONFIG.vkPixelId) window._tmr.push({ type: 'reachGoal', id: CONFIG.vkPixelId, goal: goal }); } catch (e) {}
 }
 initAnalytics();
@@ -43,6 +47,24 @@ function sendLead(data) {
   const payload = { ...data, ...UTM };
   if (CONFIG.leadEndpoint) {
     try { fetch(CONFIG.leadEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ _subject: 'Заявка с сайта RPV51', _template: 'table', _captcha: 'false', ...payload }) }).catch(() => {}); } catch (e) {}
+  }
+  if (CONFIG.leadApi) {
+    // Лид-пайплайн ВЫШКА: contact = телефон, consent — только из реального чекбокса (152-ФЗ, не хардкодить).
+    // mode:'no-cors' — API без CORS-заголовков (паттерн F5 rf-play).
+    try {
+      const phone = data['Телефон'] || data.phone || '';
+      const name = data['Имя'] || data.name || '';
+      const note = Object.entries(data)
+        .filter(([k]) => !/^(Телефон|Имя|name|phone|consent)$/.test(k))
+        .map(([k, v]) => k + ': ' + v).join(' — ');
+      fetch(CONFIG.leadApi, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
+        source: CONFIG.source,
+        contact: [phone, name].filter(Boolean).join(' · '),
+        note: note,
+        consent: data.consent === 'on' || data.consent === true,
+        ...UTM
+      }) }).catch(() => {});
+    } catch (e) {}
   }
   return payload; // без вывода ПДн в консоль
 }
@@ -129,6 +151,7 @@ function renderStep() {
       '<div class="quiz__step active"><div class="quiz__q">Куда отправить расчёт и записать на бесплатную диагностику?</div>' +
       '<div class="field"><span>Ваше имя</span><input type="text" name="name" placeholder="Иван" required></div>' +
       '<div class="field"><span>Телефон — перезвоним за 15 минут</span><input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required></div>' +
+      '<label class="form__check"><input type="checkbox" name="consent" required><span>Согласен на обработку персональных данных согласно <a href="/privacy.html" target="_blank" rel="noopener">политике конфиденциальности</a></span></label>' +
       '<button type="submit" class="btn btn--primary btn--full btn--lg">Получить расчёт</button>' +
       '<div class="lead__or">или запишитесь сразу</div>' +
       '<a class="btn btn--vk btn--full" href="' + CONFIG.vkMessage + '" target="_blank" rel="noopener">Написать в ВК</a>' +
@@ -143,15 +166,19 @@ quizForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const name = quizForm.querySelector('[name="name"]');
   const phone = quizForm.querySelector('[name="phone"]');
+  const consent = quizForm.querySelector('[name="consent"]');
   let ok = true;
   if (!name.value.trim()) { markInvalid(name); ok = false; }
   if (!phone || !validPhone(phone.value)) { markInvalid(phone); ok = false; }
+  const checkWrap = consent ? consent.closest('label') : null;
+  if (!consent || !consent.checked) { if (checkWrap) checkWrap.classList.add('invalid'); ok = false; }
   if (!ok) return;
   answers['Имя'] = name.value.trim();
   answers['Телефон'] = phone.value.trim();
-  // Отправка заявки на бэкенд/CRM, если задан CONFIG.leadEndpoint (+ запись через ВК ниже)
+  answers['consent'] = consent.checked;
+  // Отправка заявки: formsubmit + leadApi ВЫШКА (consent из чекбокса), запись через ВК ниже
   sendLead(answers);
-  track('lead'); track('quiz_lead');
+  track('lead'); track('quiz_lead'); track('lead_form');
   quizForm.style.display = 'none';
   document.getElementById('successVk').href = CONFIG.vkMessage;
   quizSuccess.hidden = false;
@@ -166,17 +193,30 @@ function handleForm(form, successEl, onDone) {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     let ok = true;
-    form.querySelectorAll('[required]').forEach((f) => { const empty = !f.value.trim(); if (empty) { markInvalid(f); ok = false; } else { clearInvalid(f); } });
+    form.querySelectorAll('[required]').forEach((f) => {
+      if (f.type === 'checkbox') {
+        const wrap = f.closest('label');
+        if (!f.checked) { if (wrap) wrap.classList.add('invalid'); ok = false; }
+        else if (wrap) wrap.classList.remove('invalid');
+      } else {
+        const empty = !f.value.trim();
+        if (empty) { markInvalid(f); ok = false; } else { clearInvalid(f); }
+      }
+    });
     const phone = form.querySelector('input[name="phone"]');
     if (phone && !validPhone(phone.value)) { markInvalid(phone); ok = false; }
     if (!ok) return;
     const data = Object.fromEntries(new FormData(form).entries());
     sendLead(data);
-    track('lead');
+    track('lead'); track('lead_form');
     form.reset();
     if (successEl) { successEl.hidden = false; setTimeout(() => { successEl.hidden = true; if (onDone) onDone(); }, 6000); }
   });
-  form.querySelectorAll('input,textarea').forEach((el) => el.addEventListener('input', () => el.classList.remove('invalid')));
+  form.querySelectorAll('input,textarea').forEach((el) => el.addEventListener('input', () => {
+    el.classList.remove('invalid');
+    const wrap = el.closest && el.closest('label');
+    if (wrap) wrap.classList.remove('invalid');
+  }));
 }
 handleForm(document.getElementById('ctaForm'), document.getElementById('ctaSuccess'));
 
@@ -201,6 +241,11 @@ handleForm(document.getElementById('modalForm'), document.getElementById('modalS
 document.querySelectorAll('.js-call').forEach((a) => a.addEventListener('click', () => track('call')));
 document.querySelectorAll('.js-vk').forEach((a) => a.addEventListener('click', () => track('vk')));
 document.querySelectorAll('.js-route').forEach((a) => a.addEventListener('click', () => track('route')));
+// tel_click — делегированно на ВСЕ tel:-ссылки лендинга (4 шт.), не только .js-call
+document.addEventListener('click', (e) => {
+  const a = e.target && e.target.closest ? e.target.closest('a[href^="tel:"]') : null;
+  if (a) track('tel_click');
+}, true);
 
 // ---- ЛАЙТБОКС ----
 const lightbox = document.getElementById('lightbox');
