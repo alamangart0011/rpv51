@@ -68,7 +68,14 @@ function sendLead(data) {
     fetch(LEAD_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ _subject: 'Заявка с сайта RPV51', _template: 'table', _captcha: 'false', ...data, ...UTM }) }).catch(() => {});
   } catch (e) {}
   try {
-    fetch(LEAD_API, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ source: 'rpv51-site', name: data.name || '', phone: data.phone || '', comment: [data.car, data.comment].filter(Boolean).join(' — '), consent: data.consent ? 'да' : 'нет', ...UTM }) }).catch(() => {});
+    // API leadapi: consent строго true, контакт в поле contact (152-ФЗ)
+    fetch(LEAD_API, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
+      source: 'rpv51-site',
+      contact: [data.phone, data.name].filter(Boolean).join(' · '),
+      note: [data.car, data.comment].filter(Boolean).join(' — '),
+      consent: true,
+      ...UTM
+    }) }).catch(() => {});
   } catch (e) {}
 }
 
